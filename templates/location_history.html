@@ -1,0 +1,241 @@
+{%extends "layout.html"%}
+
+    {% block content %}
+
+
+            <div class="d-flex flex-column flex-column-fluid">
+                <!--begin::toolbar-->
+                <div class="toolbar" id="kt_toolbar">
+                    <div class="container d-flex flex-stack flex-wrap flex-sm-nowrap">
+                        <!--begin::Info-->
+                        <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-1">
+                            <!--begin::Title-->
+                            <h3 class="text-dark fw-bolder my-1">ประวัติตำแหน่ง</h3>
+                            <!--end::Title-->
+                            <!--begin::Breadcrumb-->
+                            <ul class="breadcrumb breadcrumb-line bg-transparent text-muted fw-bold p-0 my-1 fs-7">
+                                <li class="breadcrumb-item">
+                                    <a href="index.html" class="text-muted text-hover-primary">หน้าแรก</a>
+                                </li>
+                                <li class="breadcrumb-item text-dark">ค้นหาตำแหน่งการเดินทางเฉพาะบุคคล</li>
+                            </ul>
+                            <!--end::Breadcrumb-->
+                        </div>
+                        <!--end::Info-->
+                    
+                    </div>
+                </div>
+                <!--end::toolbar-->
+                <!--begin::Content-->
+                <div class="content fs-6 d-flex flex-column-fluid" id="kt_content">
+                    <!--begin::Container-->
+                    <div class="container">
+                        <!--begin::Pricing-->
+                        <div class="card">
+                            <div class="card-body p-12">
+                                <div class="row mb-12">
+                                    
+
+                                <div class="card mb-5 mb-xxl-8">
+                                    <div class="card-body d-flex justify-content-between card-rounded p-0 d-flex " style="background-color:#F3F6F9;">
+                                        <div class="d-flex flex-column flex-lg-row-auto py-10 py-md-14 px-10 px-md-20 pe-lg-0">
+                                            <h2 class="fw-bold text-dark mb-0">ค้นหาตำแหน่งการเดินทางเฉพาะบุคคล</h2>
+                                            <div class="fs-3 mb-8"></div>
+                                           
+                                     
+                                            
+                                            <form >
+                                                <div class="input-box">
+                                                    <input type="text" placeholder="หมายเลข Tag" />
+                                                    <button class="button">ค้นหา</button>
+                                                </div>
+                                            </form>
+                                            <!--end::Form-->
+                                        </div>
+                                
+                                        <div class="d-none d-md-flex flex-row-fluid mw-300px ms-auto bgi-no-repeat bgi-position-y-center bgi-position-x-left bgi-size-contain"
+                                            style="background-image: url({{ url_for('static', filename='images/undraw_map_re_60yf.svg') }});">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                              
+                                     
+                                    <!-- <input id type="checkbox" checked="" onclick="selectall(this)">select All <br><hr> -->
+                                   
+                                   
+                                  
+                                    <div class="mb-12"></div>
+                                    <canvas id="myChart"></canvas>
+
+                                    <input type="checkbox" checked="" onclick="updateChart(this)" value="0">
+                                    <input type="checkbox" checked="" onclick="updateChart(this)" value="1">
+
+            
+             
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+                                </div>
+            
+                            </div>
+                        </div>
+                        <!--end::Pricing-->
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--end::Content-->
+            </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    const data = {
+        // datasets: [{
+        //     label: 'Tag',
+
+        //     // data: [{
+        //     //     x: 20,
+        //     //     y: 70,
+        //     //     r: 20
+
+        //     // }, {
+        //     //     x: 100,
+        //     //     y: 70,
+        //     //     r: 20,
+
+        //     // }],
+        //    data: [ 
+        //          {% for tag in chart_Tag %}
+        //          {{tag | tojson}},
+                 
+                
+              
+        //          {% endfor %}
+                 
+           
+        // ],
+        //     backgroundColor: 'rgb(241,188,0)',
+
+        //     clip: { left: false, top: false, right: false, bottom: false }
+
+        // }]
+
+         datasets: [{
+            data: [
+                {% for tag in chart_Tag %}
+                  {{tag | tojson}},
+                 
+                
+              
+                  {% endfor %}
+            ],
+            label: "Tag ",
+          
+            backgroundColor: "rgb(241,188,0)",
+            borderWidth: 2,
+
+        }, {
+            data: [
+                   {% for anchor in chart_Anchor %}
+                    {{ anchor | tojson }},
+
+
+
+                    {% endfor %}
+            ],
+            label: " Anchor",
+         
+            backgroundColor: "rgb(0,0,0)",
+            borderWidth: 2,
+
+        }
+        ]
+    };
+
+
+
+
+    const config = {
+
+        type: 'bubble',
+        data,
+        options: {
+            plugins:{
+                legend:{
+                    labels: {
+                     
+                       usePointStyle: true,
+                       pointStyle: 'circle',
+                        font: {
+                            size: 15
+                        }
+                    }
+                }
+            },
+            // layout:{
+            //       padding: 30,
+
+            // },
+            scales: {
+              
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+
+    };
+
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+    
+    Chart.defaults.font.size = 13;
+
+
+    function updateChart(dataset){
+        console.log(dataset.value);
+        const isDataShow = myChart.isDatasetVisible(dataset.value);
+        console.log(isDataShow);
+        if(isDataShow == false){
+            myChart.show(dataset.value)
+        }
+        if (isDataShow == true) {
+            myChart.hide(dataset.value)
+        }
+    };
+
+
+
+
+
+
+
+
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+
+
+
+    });
+
+</script>
+
+
+ 
+
+    {% endblock %}
