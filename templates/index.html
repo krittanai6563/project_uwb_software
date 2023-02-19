@@ -1,100 +1,127 @@
-{%extends "layout.html"%}
+{%extends "layout.html"%} {% block content %}
 
-    {% block content %}
-
-
-            <div class="d-flex flex-column flex-column-fluid">
-                <!--begin::toolbar-->
-                <div class="toolbar" id="kt_toolbar">
-                    <div class="container d-flex flex-stack flex-wrap flex-sm-nowrap">
-                        <!--begin::Info-->
-                        <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-1">
-                            <!--begin::Title-->
-                            <h3 class="text-dark fw-bolder my-1">ระบุตำแหน่ง</h3>
-                            <!--end::Title-->
-                            <!--begin::Breadcrumb-->
-                            <ul class="breadcrumb breadcrumb-line bg-transparent text-muted fw-bold p-0 my-1 fs-7">
-                                <li class="breadcrumb-item">
-                                    <a href="index.html" class="text-muted text-hover-primary">หน้าแรก</a>
-                                </li>
-                                <li class="breadcrumb-item text-dark">ระบุตำแหน่ง</li>
-                            </ul>
-                            <!--end::Breadcrumb-->
-                        </div>
-                        <!--end::Info-->
-                    
-                    </div>
-                </div>
-                <!--end::toolbar-->
-                <!--begin::Content-->
-                <div class="content fs-6 d-flex flex-column-fluid" id="kt_content">
-                    <!--begin::Container-->
-                    <div class="container">
-                        <!--begin::Pricing-->
-                        <div class="card">
-                            <div class="card-body p-12">
-                                <div class="row mb-12">
-
-
-
-                              
-                                        <canvas id="myChart"></canvas>
-                                
-            
-            
-             
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-                                </div>
-            
-                            </div>
-                        </div>
-                        <!--end::Pricing-->
-                    </div>
-                    <!--end::Container-->
-                </div>
-                <!--end::Content-->
+<div class="d-flex flex-column flex-column-fluid">
+    <!--begin::toolbar-->
+    <div class="toolbar" id="kt_toolbar">
+        <div class="container d-flex flex-stack flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex flex-column align-items-start justify-content-center flex-wrap me-1">
+                <!--begin::Title-->
+                <h3 class="text-dark fw-bolder my-1">ระบุตำแหน่ง</h3>
+                <!--end::Title-->
+                <!--begin::Breadcrumb-->
+                <ul class="breadcrumb breadcrumb-line bg-transparent text-muted fw-bold p-0 my-1 fs-7">
+                    <li class="breadcrumb-item">
+                        <a href="index.html" class="text-muted text-hover-primary">หน้าแรก</a>
+                    </li>
+                    <li class="breadcrumb-item text-dark">ระบุตำแหน่ง</li>
+                </ul>
+                <!--end::Breadcrumb-->
             </div>
+            <!--end::Info-->
+            <!--begin::Nav-->
+            <!-- <div class="d-flex align-items-center flex-nowrap text-nowrap overflow-auto py-1">
+                                        <a href="general/faq.html" class="btn btn-active-accent fw-bolder">FAQ</a>
+                                        <a href="general/pricing.html"
+                                            class="btn btn-active-accent active fw-bolder ms-3">Pricing</a>
+                                        <a href="general/invoice.html" class="btn btn-active-accent fw-bolder ms-3">Invoice</a>
+                                        <a href="#" class="btn btn-active-accent fw-bolder ms-3">Login</a>
+                                        <a href="#" class="btn btn-active-accent fw-bolder ms-3">Wizard</a>
+                                        <a href="#" class="btn btn-active-accent fw-bolder ms-3">Error</a>
+                                    </div> -->
+            <!--end::Nav-->
+        </div>
+    </div>
+    <!--end::toolbar-->
+    <!--begin::Content-->
+    <div class="content fs-6 d-flex flex-column-fluid" id="kt_content">
+        <!--begin::Container-->
+        <div class="container">
+            <!--begin::Pricing-->
+            <div class="card">
+                <div class="card-body p-12">
+                    <div class="row mb-12">
+                        <div class="mb-12"></div>
+                        <canvas id="myChart"></canvas>
+                        
+                        <input type="checkbox" checked="" onclick="updateChart(this)" value="0">
+                        <input type="checkbox" checked="" onclick="updateChart(this)" value="1">
+                        <div>{{getAnchor}}</div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Pricing-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Content-->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
+<!-- 
+    // const data = {
+    //         datasets: [{
+    //             label: 'anchor',
+
+    //             data: [{
+    //                 x: 20,
+    //                 y: 70,
+    //                 r: 20
+
+    //             }, {
+    //                 x: 100,
+    //                 y: 70,
+    //                 r: 20,
+
+    //             }],
+    //             backgroundColor: 'rgb(241,188,0)',
+
+    //             clip: {left: false, top: false, right: false, bottom: false }
+
+    //         }]
+    //     }; -->
 
 
-
- 
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <script>
 
         const data = {
-                datasets: [{
-                    label: 'anchor',
-                    
-                    data: [{
-                        x: 20,
-                        y: 70,
-                        r: 20
-                     
-                    }, {
-                        x: 100,
-                        y: 70,
-                        r: 20,
-                      
-                    }],
-                    backgroundColor: 'rgb(241,188,0)',
-                    
-                    clip: {left: false, top: false, right: false, bottom: false }
+            datasets: [{
+                data: [
+                    {% for tag in Tag1 %}
+                      {{ tag | tojson}},
 
-                }]
-            };
+
+
+        {% endfor %}
+                ],
+        label: "Tag ",
+
+            backgroundColor: "rgb(241,188,0)",
+            borderWidth: 2,
+            clip: { left: false, top: false, right: false, bottom: false }
+    
+            }, {
+            data: [
+                {% for anchor in Anchor1 %}
+        {{ anchor | tojson }},
+
+
+
+        {% endfor %}
+                ],
+        label: " Anchor",
+
+            backgroundColor: "rgb(0,0,0)",
+            borderWidth: 2,
+            clip: { left: false, top: false, right: false, bottom: false }
+    
+            }
+            ]
+        };
+
+
 
 
         const config = {
@@ -102,11 +129,24 @@
             type: 'bubble',
             data,
             options: {
-                
-                layout:{
-                    padding: 30
+                plugins: {
+                    legend: {
+                        labels: {
+
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            font: {
+                                size: 15
+                            }
+                        }
+                    }
                 },
+                // layout:{
+                //       padding: 30,
+
+                // },
                 scales: {
+
                     y: {
                         beginAtZero: true
                     }
@@ -120,6 +160,22 @@
             config
         );
 
+        Chart.defaults.font.size = 10;
+
+
+        function updateChart(dataset) {
+            console.log(dataset.value);
+            const isDataShow = myChart.isDatasetVisible(dataset.value);
+            console.log(isDataShow);
+            if (isDataShow == false) {
+                myChart.show(dataset.value)
+            }
+            if (isDataShow == true) {
+                myChart.hide(dataset.value)
+            }
+        };
+
+
 
 
 
@@ -129,9 +185,12 @@
         const ctx = document.getElementById('myChart');
 
         new Chart(ctx, {
-            
-         
+
+
 
         });
+
     </script>
-    {% endblock %}
+
+
+{% endblock %}
